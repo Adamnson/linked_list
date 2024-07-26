@@ -134,9 +134,7 @@ class LinkedList
     @size -= 1
     nil
   end
-      
-      
-
+  
   def to_s
     node = @head
     @size.times do |i|
