@@ -108,7 +108,7 @@ class LinkedList
         @size += 1
       end
     else
-      (index-1).times do
+      (index - 1).times do
         node = node.next
       end
     end
@@ -123,10 +123,10 @@ class LinkedList
 
   def remove_at(index)
     return nil if index >= @size || index.negative?
-    return self.pop if index.eql?(@size - 1)
+    return pop if index.eql?(@size - 1)
 
     node = @head
-    (index - 1).times do 
+    (index - 1).times do
       node = node.next
     end
     removed_node = node.next
@@ -134,7 +134,7 @@ class LinkedList
     @size -= 1
     nil
   end
-  
+
   def to_s
     node = @head
     @size.times do |i|
@@ -175,7 +175,7 @@ li.insert_at(3, 10)
 puts "#{li} size: #{li.size}"
 puts "contians?(23) #{li.contains?(23)} #{li.find(23)}"
 
-3.times do 
+3.times do
   li.remove_at(6)
 end
 
@@ -185,5 +185,5 @@ li.remove_at(7)
 puts "#{li} size: #{li.size}"
 puts "contians?(23) #{li.contains?(23)} #{li.find(23)}"
 
-li.insert_at(8,29)
+li.insert_at(8, 29)
 puts "#{li} size: #{li.size}"
