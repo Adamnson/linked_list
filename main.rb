@@ -137,11 +137,11 @@ class LinkedList
 
   def to_s
     node = @head
-    @size.times do |i|
-      print "( #{node.value} ) #{i < (@size - 1) ? ' -> ' : ''}"
+    @size.times do |_i|
+      print "( #{node.value} )  -> "
       node = node.next
     end
-    nil
+    puts 'nil'
   end
 end # class LinkedList
 
@@ -187,3 +187,14 @@ puts "contians?(23) #{li.contains?(23)} #{li.find(23)}"
 
 li.insert_at(8, 29)
 puts "#{li} size: #{li.size}"
+
+list = LinkedList.new
+
+list.append('dog')
+list.append('cat')
+list.append('parrot')
+list.append('hamster')
+list.append('snake')
+list.append('turtle')
+
+puts list
