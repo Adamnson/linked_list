@@ -1,41 +1,57 @@
+# class Node implements node class as a data unit for linked lists
+# class variables:
+#  @next
+#  @value
 class Node
   attr_accessor :next, :value
 
-  def initialize
-    @next = nil
-    @value = nil
+  def initialize(value = nil, next_node = nil)
+    @next = next_node
+    @value = value
   end
 end
 
+# class LinkedList implements the linked list data structure
+# based on the Node class as individual elements
+# class variables:
+#  @head
+#  @tail
+#  @size
+# class methods:
+#  prepend
+#  append
+#  at
+#  pop
+#  contains
+#  find
+#  insert_at
+#  remove_at
+#  remove_head
+#  to_s
 class LinkedList
   attr_accessor :head, :tail, :size
 
   def initialize
-    @head = nil
-    @tail = nil
+    @head = @tail = nil
     @size = 0
   end
 
   def prepend(value)
-    new_head = Node.new
-    if @size.eql?(0)
+    new_head = Node.new(value)
+    if @size.zero?
       @head = new_head
-      @head.value = value
       @tail = new_head
     else
-      new_head.value = value
       new_head.next = @head
       @head = new_head
     end
     @size += 1
   end
 
-  def append(value)
-    return prepend(value) unless size > 0
+  def append(value = nil)
+    return prepend(value) unless size.positive?
 
-    new_tail = Node.new
-    new_tail.value = value
-    new_tail.next = nil
+    new_tail = Node.new(value)
     @tail.next = new_tail
     @tail = new_tail
     @size += 1
@@ -54,7 +70,7 @@ class LinkedList
   end
 
   def pop
-    return nil if size.eql?(0)
+    return nil if size.zero?
 
     old_tail = @tail
     if size.eql?(1)
@@ -97,40 +113,43 @@ class LinkedList
     return append(value) if index.eql?(size)
     return nil if index.negative?
 
-    node = @head
-
     if index > @size
-      (index - @size).times do
-        node = Node.new
-        node.value = nil
-        @tail.next = node
-        @tail = node
-        @size += 1
-      end
+      (index - @size).times { append }
     else
-      (index - 1).times do
-        node = node.next
-      end
+      node = at(index - 1)
+      new_node = Node.new(value)
+      new_node.next = node.next
+      node.next = new_node
+      @size += 1
+      nil
     end
-
-    new_node = Node.new
-    new_node.value = value
-    new_node.next = node.next
-    node.next = new_node
-    @size += 1
-    nil
   end
 
   def remove_at(index)
     return nil if index >= @size || index.negative?
+    return remove_head if index.zero?
     return pop if index.eql?(@size - 1)
 
     node = @head
-    (index - 1).times do
-      node = node.next
-    end
+    (index - 1).times { node.next }
+
     removed_node = node.next
     node.next = removed_node.next
+    @size -= 1
+    nil
+  end
+
+  def remove_head
+    node = @head
+
+    if @head.eql?(@tail)
+      @head = nil
+      @tail = nil
+      @size = 0
+      return
+    end
+
+    @head = node.next
     @size -= 1
     nil
   end
@@ -143,10 +162,16 @@ class LinkedList
     end
     puts 'nil'
   end
-end # class LinkedList
+end
 
 li = LinkedList.new
+puts li
+
+puts 'ADDING ELEMENTS IN PROGRESS'
 li.append(4)
+puts "the size is #{li.size}, the head is #{li.head.value}, the tail is #{li.tail.value}"
+puts "the head node is #{li.head}, the tail node is #{li.tail}"
+puts li
 li.prepend(2)
 li.append(7)
 li.prepend(0)
